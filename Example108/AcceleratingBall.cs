@@ -23,13 +23,17 @@ namespace Movement
 	class AcceleratingBall : SpriteNode
 	{
 		// your private fields here (add Velocity, Acceleration, and MaxSpeed)
-
+		private Vector2 Velocity;
+		private Vector2 Acceleration;
+		private float MaxSpeed = 800f;
 
 		// constructor + call base constructor
 		public AcceleratingBall() : base("resources/ball.png")
 		{
 			Position = new Vector2(Settings.ScreenSize.X / 2, Settings.ScreenSize.Y / 4);
 			Color = Color.RED;
+			Acceleration = new Vector2(50, 45);
+			Velocity = new Vector2(0, 0);
 		}
 
 		// Update is called every frame
@@ -43,7 +47,15 @@ namespace Movement
 		private void Move(float deltaTime)
 		{
 			// TODO implement
-			// Position += Velocity * deltaTime;
+			if(Velocity.X < MaxSpeed && Velocity.X > -MaxSpeed)
+			{
+				Velocity.X += Acceleration.X * deltaTime;
+			}
+			if(Velocity.Y < MaxSpeed && Velocity.Y > -MaxSpeed)
+			{
+				Velocity.Y += Acceleration.Y * deltaTime;
+			}
+			Position += Velocity * deltaTime;
 		}
 
 		private void BounceEdges()
@@ -56,7 +68,23 @@ namespace Movement
 			// TODO implement...
 			if (Position.X > scr_width)
 			{
-				// ...
+				Velocity.X = -Velocity.X;
+				Acceleration.X = -Acceleration.X;
+			}
+			else if(Position.X < 0)
+			{
+				Velocity.X = -Velocity.X;
+				Acceleration.X = -Acceleration.X;
+			}
+			if(Position.Y > scr_height)
+			{
+				Velocity.Y = -Velocity.Y;
+				Acceleration.Y = -Acceleration.Y;
+			}
+			else if(Position.Y < 0)
+			{
+				Velocity.Y = -Velocity.Y;
+				Acceleration.Y = -Acceleration.Y;
 			}
 		}
 
