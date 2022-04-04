@@ -57,27 +57,7 @@ namespace Movement
 			{
 				Vector2 direction = mouse - Position;
 				Vector2.Normalize(direction);
-				Position += direction * Velocity * deltaTime;
-				//if(mouse.X - Position.X > 0)
-				//{
-				//	Velocity += Acceleration * deltaTime;
-				//	Position.X += Velocity.X * deltaTime;
-				//}
-				//else if(mouse.X - Position.X < 0)
-				//{
-				//	Velocity += Acceleration * deltaTime;
-				//	Position.X -= Velocity.X * deltaTime;
-				//}
-				//if(mouse.Y - Position.Y > 0)
-				//{
-				//	Velocity += Acceleration * deltaTime;
-				//	Position.Y += Velocity.Y * deltaTime;
-				//}
-				//else if(mouse.Y - Position.Y < 0)
-				//{
-				//	Velocity += Acceleration * deltaTime;
-				//	Position.Y -= Velocity.Y * deltaTime;
-				//}
+				Position += direction * deltaTime;
 			}
 		}
 
@@ -87,12 +67,6 @@ namespace Movement
 			float scr_height = Settings.ScreenSize.Y;
 			float spr_width = TextureSize.X;
 			float spr_heigth = TextureSize.Y;
-
-			// TODO implement...
-			if (Position.X > scr_width)
-			{
-				// ...
-			}
 		}
 
 	}
