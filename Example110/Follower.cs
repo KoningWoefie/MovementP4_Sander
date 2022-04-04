@@ -24,13 +24,17 @@ namespace Movement
 	class Follower : SpriteNode
 	{
 		// your private fields here (add Velocity, Acceleration, and MaxSpeed)
-
+		private Vector2 Velocity;
+		private Vector2 Acceleration;
+		private Vector2 Normalized;
 
 		// constructor + call base constructor
 		public Follower() : base("resources/ball.png")
 		{
 			Position = new Vector2(Settings.ScreenSize.X / 2, Settings.ScreenSize.Y / 2);
 			Color = Color.GREEN;
+			Velocity = new Vector2(200, 200);
+			Acceleration = new Vector2(50, 50);
 		}
 
 		// Update is called every frame
@@ -38,18 +42,43 @@ namespace Movement
 		{
 			Follow(deltaTime);
 			BounceEdges();
+			Velocity += Acceleration * deltaTime;
+			Console.WriteLine(Velocity);
 		}
 
 		// your own private methods
 		private void Follow(float deltaTime)
 		{
 			Vector2 mouse = Raylib.GetMousePosition();
-			// Console.WriteLine(mouse);
-			
-			Position = mouse; // incorrect!!
+			Console.WriteLine(mouse);
 
 			// TODO implement
-			// Position += Velocity * deltaTime;
+			if(Position != mouse)
+			{
+				Vector2 direction = mouse - Position;
+				Vector2.Normalize(direction);
+				Position += direction * Velocity * deltaTime;
+				//if(mouse.X - Position.X > 0)
+				//{
+				//	Velocity += Acceleration * deltaTime;
+				//	Position.X += Velocity.X * deltaTime;
+				//}
+				//else if(mouse.X - Position.X < 0)
+				//{
+				//	Velocity += Acceleration * deltaTime;
+				//	Position.X -= Velocity.X * deltaTime;
+				//}
+				//if(mouse.Y - Position.Y > 0)
+				//{
+				//	Velocity += Acceleration * deltaTime;
+				//	Position.Y += Velocity.Y * deltaTime;
+				//}
+				//else if(mouse.Y - Position.Y < 0)
+				//{
+				//	Velocity += Acceleration * deltaTime;
+				//	Position.Y -= Velocity.Y * deltaTime;
+				//}
+			}
 		}
 
 		private void BounceEdges()
