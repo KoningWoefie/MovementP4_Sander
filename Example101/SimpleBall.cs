@@ -39,8 +39,8 @@ namespace Movement
 		{
 			Move(deltaTime);
 			BounceEdges();
-		}
-
+		}		
+		
 		// your own private methods
 		private void Move(float deltaTime)
 		{
