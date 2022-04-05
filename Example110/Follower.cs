@@ -50,12 +50,12 @@ namespace Movement
 		private void Follow(float deltaTime)
 		{
 			Vector2 mouse = Raylib.GetMousePosition();
-			Console.WriteLine(mouse);
-
+			
+			Vector2 direction = mouse - Position;
+			
 			// TODO implement
 			if(Position != mouse)
 			{
-				Vector2 direction = mouse - Position;
 				Vector2.Normalize(direction);
 				Position += direction * deltaTime;
 			}
