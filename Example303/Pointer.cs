@@ -43,17 +43,19 @@ namespace Movement
 		// your own private methods
 		private void PointToMouse(float deltaTime)
 		{
-			// Or just implement it in Example 110 Follower
 
 			Vector2 mouse = Raylib.GetMousePosition();
-			// Console.WriteLine(mouse);
+			
+			Vector2 direction = mouse - Position;
 
-			Position = mouse; // incorrect!!
+			if(Position != mouse)
+			{
+				Vector2.Normalize(direction);
+				Position += direction * deltaTime;
+			}
 
-			Rotation += deltaTime * Math.PI;  // incorrect!!
+			Rotation = (float)Math.Atan2(direction.Y, direction.X);
 
-			// TODO implement
-			// Position += Velocity * deltaTime;
 		}
 
 		private void BounceEdges()
@@ -62,12 +64,6 @@ namespace Movement
 			float scr_height = Settings.ScreenSize.Y;
 			float spr_width = TextureSize.X;
 			float spr_heigth = TextureSize.Y;
-
-			// TODO implement...
-			if (Position.X > scr_width)
-			{
-				// ...
-			}
 		}
 
 	}
