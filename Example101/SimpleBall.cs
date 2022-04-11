@@ -55,21 +55,23 @@ namespace Movement
 			float scr_height = Settings.ScreenSize.Y;
 			float spr_width = TextureSize.X;
 			float spr_heigth = TextureSize.Y;
+			float half_width = spr_width / 2;
+			float half_height = spr_heigth / 2;
 
 			// TODO implement...
-			if (Position.X >= scr_width)
+			if (Position.X + half_width >= scr_width)
 			{
 				speedX *= -1;
 			}
-			else if (Position.X <= 0)
+			else if (Position.X - half_width <= 0)
 			{
 				speedX *= -1;
 			}
-			if(Position.Y >= scr_height)
+			if(Position.Y + half_height >= scr_height)
 			{
 				speedY *= -1;
 			}
-			else if(Position.Y <= 0)
+			else if(Position.Y - half_height <= 0)
 			{
 				speedY *= -1;
 			}
