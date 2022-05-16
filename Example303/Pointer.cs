@@ -81,7 +81,7 @@ namespace Movement
 				Acceleration *= 0;
 			}
 
-			Rotation = (float)Math.Atan2(direction.Y, direction.X);
+			Rotation = (float)Math.Atan2(Velocity.Y, Velocity.X);
 		}
 
 		private void BounceEdges()
