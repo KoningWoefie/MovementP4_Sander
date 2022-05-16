@@ -27,15 +27,16 @@ namespace Movement
 		// your private fields here (add Velocity, Acceleration, and MaxSpeed)
 		Vector2 Velocity;
 		Vector2 Acceleration;
-		Vector2 MaxSpeed = new Vector2(800, 800);
 		Random rand = new Random();
-		ParticleSystem system;
+		public bool isDead = false;
+		private int lifeSpan = 200;
+		private int timeAlive = 0;
 
 		// constructor + call base constructor
 		public Particle(float x, float y, Color color) : base("resources/spaceship.png")
 		{
-			float randX = (float)rand.Next(-250, 250);
-			float randY = (float)rand.Next(-250, 250);
+			float randX = (float)rand.Next(-150, 150);
+			float randY = (float)rand.Next(0, 100);
 			Position = new Vector2(x, y);
 			Velocity = new Vector2(randX, randY);
 			Acceleration = new Vector2(20, 30);
@@ -47,48 +48,14 @@ namespace Movement
 		public override void Update(float deltaTime)
 		{
 			Move(deltaTime);
-			WrapEdges();
 		}
 
 		// your own private methods
 		private void Move(float deltaTime)
 		{
 			// TODO implement
-			if(Velocity != MaxSpeed)
-			{
-				Velocity += Acceleration * deltaTime;
-			}
+			Velocity += Acceleration * deltaTime;
 			Position += Velocity * deltaTime;
 		}
-
-		private void WrapEdges()
-		{
-			float scr_width = Settings.ScreenSize.X;
-			float scr_height = Settings.ScreenSize.Y;
-			float spr_width = TextureSize.X;
-			float spr_heigth = TextureSize.Y;
-
-			// TODO implement...
-			if (Position.X > scr_width)
-			{
-				//Position.X = 0 but not lining up with leftside of screen
-				Position.X = 0;
-			}
-			else if (Position.X < 0)
-			{
-				Position.X = scr_width;
-			}
-			if(Position.Y > scr_height)
-			{
-				//Position.Y = 0 but not lining up with top of screen
-				Position.Y = 0;
-			}
-			else if(Position.Y < 0)
-			{
-				//Position.Y = scr_height but can't tell if it works
-				Position.Y = scr_height;
-			}
-		}
-
 	}
 }

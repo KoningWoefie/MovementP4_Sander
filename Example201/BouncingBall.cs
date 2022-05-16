@@ -1,5 +1,7 @@
 using System.Numerics; // Vector2
 using Raylib_cs; // Color
+using System; // Console
+using System.Timers; // Timer
 
 /*
 In this class, we have the properties:
@@ -25,6 +27,9 @@ namespace Movement
 		// your private fields here (add Velocity, Acceleration, addForce method)
 		private Vector2 Velocity;
 		private Vector2 Acceleration;
+		private Random random = new Random();
+		private bool ifTrue = true;
+		private float force = 1f;
 
 		// constructor + call base constructor
 		public BouncingBall() : base("resources/ball.png")
@@ -43,8 +48,10 @@ namespace Movement
 		// your own private methods
 		private void Fall(float deltaTime)
 		{
-			Vector2 wind = new Vector2(3f, 0.0f);
-			Vector2 gravity = new Vector2(0.0f, 100f);
+			force = (float)random.Next(-200, 200);
+			Vector2 wind = new Vector2(force, 0.0f);
+			Vector2 gravity = new Vector2(0.0f, 980f);
+			Console.WriteLine(wind);
 
 			AddForce(wind);
 			AddForce(gravity);
@@ -89,6 +96,5 @@ namespace Movement
 				Acceleration.Y = -Acceleration.Y;
 			}
 		}
-
 	}
 }

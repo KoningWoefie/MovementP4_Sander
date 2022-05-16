@@ -26,15 +26,15 @@ namespace Movement
 		// your private fields here (add Velocity, Acceleration, and MaxSpeed)
 		private Vector2 Velocity;
 		private Vector2 Acceleration;
-		private Vector2 Normalized;
+		private float MaxSpeed = 200f;
 
 		// constructor + call base constructor
 		public Follower() : base("resources/ball.png")
 		{
 			Position = new Vector2(Settings.ScreenSize.X / 2, Settings.ScreenSize.Y / 2);
 			Color = Color.GREEN;
-			Velocity = new Vector2(200, 200);
-			Acceleration = new Vector2(50, 50);
+			//Velocity = new Vector2(200, 200);
+			//Acceleration = new Vector2(50, 50);
 		}
 
 		// Update is called every frame
@@ -52,12 +52,34 @@ namespace Movement
 			Vector2 mouse = Raylib.GetMousePosition();
 			
 			Vector2 direction = mouse - Position;
-			
-			// TODO implement
+
+			float distance = Vector2.Distance(mouse, Position);
+
 			if(Position != mouse)
 			{
 				Vector2.Normalize(direction);
-				Position += direction * deltaTime;
+
+				Acceleration = direction;
+				
+				if(Velocity.X > MaxSpeed || Velocity.X < MaxSpeed)
+				{
+					Velocity.X += Acceleration.X * deltaTime;
+				}
+				else if(Velocity.X > -MaxSpeed && Velocity.X < -MaxSpeed)
+				{
+					Velocity.X -= Acceleration.X * deltaTime;
+				}
+				if(Velocity.Y < MaxSpeed || Velocity.Y > MaxSpeed)
+				{
+					Velocity.Y += Acceleration.Y * deltaTime;
+				}
+				else if(Velocity.Y > -MaxSpeed && Velocity.Y < -MaxSpeed)
+				{
+					Velocity.Y -= Acceleration.Y * deltaTime;
+				}
+				Position += Velocity * deltaTime;
+				Console.WriteLine(Position);
+				Acceleration *= 0;
 			}
 		}
 

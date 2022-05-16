@@ -1,4 +1,5 @@
 using System;
+using System.Numerics;
 using Raylib_cs;
 
 namespace Movement
@@ -9,20 +10,29 @@ namespace Movement
 		private ParticleSystem particlesystem01;
 		private ParticleSystem particlesystem02;
 
+		private Vector2 mousePos;
+
 		// constructor + call base constructor
 		public Example405(String t) : base(t)
 		{
-			particlesystem01 = new ParticleSystem(320, 360);
-			AddChild(particlesystem01);
-
-			particlesystem02 = new ParticleSystem(960, 360);
-			AddChild(particlesystem02);
+			//particlesystem02 = new ParticleSystem(960, 360);
+			//AddChild(particlesystem02);
 		}
 
 		// Update is called every frame
 		public override void Update(float deltaTime)
 		{
 			base.Update(deltaTime);
+			if(Raylib.IsMouseButtonPressed(MouseButton.MOUSE_LEFT_BUTTON))
+			{
+				Particles(deltaTime);
+			}
+		}
+
+		private void Particles(float deltaTime)
+		{
+			particlesystem01 = new ParticleSystem(mousePos.X, mousePos.Y);
+			AddChild(particlesystem01);
 		}
 
 	} // class

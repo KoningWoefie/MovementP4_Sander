@@ -40,7 +40,7 @@ namespace Movement
 		public override void Update(float deltaTime)
 		{
 			Move(deltaTime);
-			BounceEdges();
+			WrapEdges();
 		}
 
 		// your own private methods
@@ -58,35 +58,29 @@ namespace Movement
 			Position += Velocity * deltaTime;
 		}
 
-		private void BounceEdges()
+		private void WrapEdges()
 		{
 			float scr_width = Settings.ScreenSize.X;
 			float scr_height = Settings.ScreenSize.Y;
 			float spr_width = TextureSize.X;
 			float spr_heigth = TextureSize.Y;
-			float half_width = spr_width / 2;
-			float half_height = spr_heigth / 2;
 
 			// TODO implement...
-			if (Position.X + half_width > scr_width)
+			if (Position.X > scr_width)
 			{
-				Velocity.X = -Velocity.X;
-				Acceleration.X = -Acceleration.X;
+				Position.X = 0;
 			}
-			else if(Position.X - half_width < 0)
+			else if (Position.X < 0)
 			{
-				Velocity.X = -Velocity.X;
-				Acceleration.X = -Acceleration.X;
+				Position.X = scr_width;
 			}
-			if(Position.Y + half_height > scr_height)
+			if(Position.Y > scr_height)
 			{
-				Velocity.Y = -Velocity.Y;
-				Acceleration.Y = -Acceleration.Y;
+				Position.Y = 0;
 			}
-			else if(Position.Y - half_height < 0)
+			else if(Position.Y < 0)
 			{
-				Velocity.Y = -Velocity.Y;
-				Acceleration.Y = -Acceleration.Y;
+				Position.Y = scr_height;
 			}
 		}
 

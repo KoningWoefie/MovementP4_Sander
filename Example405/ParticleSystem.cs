@@ -13,6 +13,7 @@ namespace Movement
 		private float PositionX;
 		private float PositionY;
 		public Vector2 ParticlePosition;
+		public Particle p;
 
 		// constructor + call base constructor
 		public ParticleSystem(float x, float y) : base()
@@ -34,18 +35,29 @@ namespace Movement
 
 			particles = new List<Particle>();
 			Random rand = new Random();
-			for (int i = 0; i < 100; i++)
+			while (particles.Count < 100)
 			{
 				float randX = (float)rand.Next(0, (int)Settings.ScreenSize.X);
 				float randY = (float)rand.Next(0, (int)Settings.ScreenSize.Y);
 				Vector2 pos = new Vector2(randX, randY);
 				pos -= new Vector2(100, 100);
-				Particle p = new Particle(pos.X, pos.Y, colors[rand.Next()%colors.Count]);
+				p = new Particle(pos.X, pos.Y, colors[rand.Next()%colors.Count]);
 				particles.Add(p);
 				p.Rotation = (float)Math.Atan2(pos.Y, pos.X);
 				AddChild(p);
 			}
-			Position = Vector2.Zero;
+			
+			if(!p.isDead)
+			{
+				Console.WriteLine("Particle is not dead");
+			}
+			if(p.isDead)
+			{
+				Console.WriteLine("Dead");
+				p = null;
+				particles.Remove(p);
+				RemoveChild(p);
+			}
 		}
 
 		// Update is called every frame
