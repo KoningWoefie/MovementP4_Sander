@@ -49,5 +49,49 @@ namespace Movement
 			Acceleration += force / Mass;
 		}
 
+		protected void WrapEdges()
+		{
+			float scr_width = Settings.ScreenSize.X;
+			float scr_height = Settings.ScreenSize.Y;
+			float spr_width = TextureSize.X;
+			float spr_heigth = TextureSize.Y;
+
+			// TODO implement...
+			if (Position.X > scr_width)
+			{
+				Position.X = 0;
+			}
+			else if (Position.X < 0)
+			{
+				Position.X = scr_width;
+			}
+			if(Position.Y > scr_height)
+			{
+				Position.Y = 0;
+			}
+			else if(Position.Y < 0)
+			{
+				Position.Y = scr_height;
+			}
+		}
+
+		protected void Limit()
+		{
+			Vector2 normalized = Vector2.Normalize(Velocity);
+			Vector2 limit;
+
+			float magnitude = Velocity.Length();
+			float MaxSpeed = 800f;
+
+			if(magnitude < MaxSpeed)
+			{
+				limit = Velocity;
+			}
+			else
+			{
+				limit = normalized * MaxSpeed;
+			}
+			Velocity = limit;
+		}
 	}
 }
