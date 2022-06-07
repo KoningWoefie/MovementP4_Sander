@@ -1,4 +1,5 @@
 using System.Numerics;
+using System;
 
 namespace Movement
 {
@@ -75,23 +76,52 @@ namespace Movement
 			}
 		}
 
-		protected void Limit()
+		protected void BounceEdges()
 		{
-			Vector2 normalized = Vector2.Normalize(Velocity);
-			Vector2 limit;
+			float scr_width = Settings.ScreenSize.X;
+			float scr_height = Settings.ScreenSize.Y;
+			float spr_width = TextureSize.X;
+			float spr_heigth = TextureSize.Y;
+			float half_width = spr_width / 2;
+			float half_height = spr_heigth / 2;
 
-			float magnitude = Velocity.Length();
-			float MaxSpeed = 800f;
-
-			if(magnitude < MaxSpeed)
+			if (Position.X + half_width >= scr_width)
 			{
-				limit = Velocity;
+				velocity.X = -Velocity.X;
+				acceleration.X = -Acceleration.X;
 			}
-			else
+			else if(Position.X - half_width <= 0)
+			{
+				velocity.X = -Velocity.X;
+				acceleration.X = -Acceleration.X;
+			}
+			if(Position.Y + half_height >= scr_height)
+			{
+				velocity.Y = -Velocity.Y;
+				acceleration.Y = -Acceleration.Y;
+			}
+			else if(Position.Y - half_height <= 0)
+			{
+				velocity.Y = -Velocity.Y;
+				acceleration.Y = -Acceleration.Y;
+			}
+		}
+
+		protected Vector2 Limit(Vector2 vec)
+		{
+			Vector2 normalized = Vector2.Normalize(vec);
+			Vector2 limit;
+			
+			float MaxSpeed = 800f;
+			float magnitude = vec.Length();
+
+			if(magnitude >= MaxSpeed)
 			{
 				limit = normalized * MaxSpeed;
+				vec = limit;
+				return vec;
 			}
-			Velocity = limit;
+			return vec;
 		}
 	}
 }

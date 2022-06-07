@@ -1,4 +1,5 @@
 using System.Numerics; // Vector2
+using System;
 using Raylib_cs; // Color
 
 /*
@@ -34,8 +35,8 @@ namespace Movement
 		public override void Update(float deltaTime)
 		{
 			Acceleration = new Vector2(50f, 45f);
-			Limit();
 			Move(deltaTime);
+			Velocity = Limit(Velocity);
 			WrapEdges();
 		}
 	}
