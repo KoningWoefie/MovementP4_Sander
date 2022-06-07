@@ -21,12 +21,9 @@ Methods:
 
 namespace Movement
 {
-	class Follower : SpriteNode
+	class Follower : MoverNode
 	{
 		// your private fields here (add Velocity, Acceleration, and MaxSpeed)
-		private Vector2 Velocity;
-		private Vector2 Acceleration;
-		private float MaxSpeed = 200f;
 
 		// constructor + call base constructor
 		public Follower() : base("resources/ball.png")
@@ -41,7 +38,6 @@ namespace Movement
 		public override void Update(float deltaTime)
 		{
 			Follow(deltaTime);
-			BounceEdges();
 			Velocity += Acceleration * deltaTime;
 			Console.WriteLine(Velocity);
 		}
@@ -60,36 +56,16 @@ namespace Movement
 				Vector2.Normalize(direction);
 
 				Acceleration = direction;
+				Console.WriteLine("Acceleration: "+ Acceleration);
+
+				Velocity += Acceleration * deltaTime;
 				
-				if(Velocity.X > MaxSpeed || Velocity.X < MaxSpeed)
-				{
-					Velocity.X += Acceleration.X * deltaTime;
-				}
-				else if(Velocity.X > -MaxSpeed && Velocity.X < -MaxSpeed)
-				{
-					Velocity.X -= Acceleration.X * deltaTime;
-				}
-				if(Velocity.Y < MaxSpeed || Velocity.Y > MaxSpeed)
-				{
-					Velocity.Y += Acceleration.Y * deltaTime;
-				}
-				else if(Velocity.Y > -MaxSpeed && Velocity.Y < -MaxSpeed)
-				{
-					Velocity.Y -= Acceleration.Y * deltaTime;
-				}
+				Limit(Velocity);
+
 				Position += Velocity * deltaTime;
 				Console.WriteLine(Position);
 				Acceleration *= 0;
 			}
 		}
-
-		private void BounceEdges()
-		{
-			float scr_width = Settings.ScreenSize.X;
-			float scr_height = Settings.ScreenSize.Y;
-			float spr_width = TextureSize.X;
-			float spr_heigth = TextureSize.Y;
-		}
-
 	}
 }
