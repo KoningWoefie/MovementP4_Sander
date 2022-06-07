@@ -22,20 +22,20 @@ Methods:
 
 namespace Movement
 {
-	class BouncingBall : SpriteNode
+	class BouncingBall : MoverNode
 	{
 		// your private fields here (add Velocity, Acceleration, addForce method)
-		private Vector2 Velocity;
-		private Vector2 Acceleration;
 		private Random random = new Random();
+		private Vector2 wind;
 		private bool ifTrue = true;
-		private float force = 1f;
 
 		// constructor + call base constructor
 		public BouncingBall() : base("resources/ball.png")
 		{
 			Position = new Vector2(Settings.ScreenSize.X / 6, Settings.ScreenSize.Y / 4);
 			Color = Color.BLUE;
+			float force = (float)random.Next(0, 100);
+			wind = new Vector2(force, 0);
 		}
 
 		// Update is called every frame
@@ -48,10 +48,8 @@ namespace Movement
 		// your own private methods
 		private void Fall(float deltaTime)
 		{
-			force = (float)random.Next(-200, 200);
-			Vector2 wind = new Vector2(force, 0.0f);
 			Vector2 gravity = new Vector2(0.0f, 980f);
-			Console.WriteLine(wind);
+			//Console.WriteLine(wind);
 
 			AddForce(wind);
 			AddForce(gravity);
@@ -59,42 +57,6 @@ namespace Movement
 			Velocity += Acceleration * deltaTime;
 			Acceleration *= 0.0f;
 			Position += Velocity * deltaTime;
-		}
-
-		private void AddForce(Vector2 force)
-		{
-			Acceleration += force;
-		}
-
-		private void BounceEdges()
-		{
-			float scr_width = Settings.ScreenSize.X;
-			float scr_height = Settings.ScreenSize.Y;
-			float spr_width = TextureSize.X;
-			float spr_heigth = TextureSize.Y;
-			float half_width = spr_width / 2;
-			float half_height = spr_heigth / 2;
-
-			if (Position.X + half_width > scr_width)
-			{
-				Velocity.X = -Velocity.X;
-				Acceleration.X = -Acceleration.X;
-			}
-			else if(Position.X - half_width < 0)
-			{
-				Velocity.X = -Velocity.X;
-				Acceleration.X = -Acceleration.X;
-			}
-			if(Position.Y + half_height > scr_height)
-			{
-				Velocity.Y = -Velocity.Y;
-				Acceleration.Y = -Acceleration.Y;
-			}
-			else if(Position.Y - half_height < 0)
-			{
-				Velocity.Y = -Velocity.Y;
-				Acceleration.Y = -Acceleration.Y;
-			}
 		}
 	}
 }
