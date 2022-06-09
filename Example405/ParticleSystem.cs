@@ -12,8 +12,11 @@ namespace Movement
 		private List<Color> colors;
 		private float PositionX;
 		private float PositionY;
+		private float pleaseWork = 0f;
 		public Vector2 ParticlePosition;
+		private Random rand;
 		public Particle p;
+		public Particle p2;
 
 		// constructor + call base constructor
 		public ParticleSystem(float x, float y) : base()
@@ -34,36 +37,44 @@ namespace Movement
 			colors.Add(Color.YELLOW);
 
 			particles = new List<Particle>();
-			Random rand = new Random();
-			while (particles.Count < 100)
+			rand = new Random();
+			while(pleaseWork < 100)
 			{
-				float randX = (float)rand.Next(0, (int)Settings.ScreenSize.X);
-				float randY = (float)rand.Next(0, (int)Settings.ScreenSize.Y);
-				Vector2 pos = new Vector2(randX, randY);
-				pos -= new Vector2(100, 100);
-				p = new Particle(pos.X, pos.Y, colors[rand.Next()%colors.Count]);
+				pleaseWork++;
+				p = new Particle(0, 0, colors[rand.Next()%colors.Count]);
 				particles.Add(p);
-				p.Rotation = (float)Math.Atan2(pos.Y, pos.X);
+				p.Rotation = (float)Math.Atan2(p.Velocity.Y, p.Velocity.X);
 				AddChild(p);
-			}
-			
-			if(!p.isDead)
-			{
-				Console.WriteLine("Particle is not dead");
-			}
-			if(p.isDead)
-			{
-				Console.WriteLine("Dead");
-				p = null;
-				particles.Remove(p);
-				RemoveChild(p);
 			}
 		}
 
 		// Update is called every frame
 		public override void Update(float deltaTime)
 		{
-
+			//if(pleaseWork < 100)
+			//{
+			//	pleaseWork++;
+			//	p = new Particle(0, 0, colors[rand.Next()%colors.Count]);
+			//	particles.Add(p);
+			//	p.Rotation = (float)Math.Atan2(p.Velocity.Y, p.Velocity.X);
+			//	AddChild(p);
+			//}
+			p2 = particles[0];
+			if(p2.isDead)
+			{
+				particles.Remove(p2);
+				particles.Add(p2);
+				p2.Position = new Vector2(0, 0);
+				p2.Velocity = p2.startVelocity;
+				p2.isDead = false;
+			}
+			else
+			{
+				foreach (Particle p in particles)
+				{
+					p2.Update(deltaTime); //important otherwise all particles reset at the same time
+				}
+			}
 		}
 
 

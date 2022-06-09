@@ -15,8 +15,6 @@ namespace Movement
 		// constructor + call base constructor
 		public Example405(String t) : base(t)
 		{
-			//particlesystem02 = new ParticleSystem(960, 360);
-			//AddChild(particlesystem02);
 		}
 
 		// Update is called every frame
@@ -25,6 +23,7 @@ namespace Movement
 			base.Update(deltaTime);
 			if(Raylib.IsMouseButtonPressed(MouseButton.MOUSE_LEFT_BUTTON))
 			{
+				mousePos = Raylib.GetMousePosition();
 				Particles(deltaTime);
 			}
 		}

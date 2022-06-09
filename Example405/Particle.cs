@@ -22,24 +22,25 @@ Methods:
 
 namespace Movement
 {
-	class Particle : SpriteNode
+	class Particle : MoverNode
 	{
 		// your private fields here (add Velocity, Acceleration, and MaxSpeed)
-		Vector2 Velocity;
-		Vector2 Acceleration;
+		public Vector2 startVelocity;
 		Random rand = new Random();
 		public bool isDead = false;
-		private int lifeSpan = 200;
+		private int lifeSpan = 10000;
 		private int timeAlive = 0;
+
 
 		// constructor + call base constructor
 		public Particle(float x, float y, Color color) : base("resources/spaceship.png")
 		{
-			float randX = (float)rand.Next(-150, 150);
-			float randY = (float)rand.Next(0, 100);
+			float randX = (float)rand.Next(-150, 150); 
+			float randY = (float)rand.Next(-300, 0); 
 			Position = new Vector2(x, y);
 			Velocity = new Vector2(randX, randY);
-			Acceleration = new Vector2(20, 30);
+			Console.WriteLine(Velocity);
+			startVelocity = Velocity;
 			Scale = new Vector2(0.25f, 0.25f);
 			Color = color;
 		}
@@ -48,14 +49,15 @@ namespace Movement
 		public override void Update(float deltaTime)
 		{
 			Move(deltaTime);
-		}
-
-		// your own private methods
-		private void Move(float deltaTime)
-		{
-			// TODO implement
-			Velocity += Acceleration * deltaTime;
-			Position += Velocity * deltaTime;
+			Rotation = (float)Math.Atan2(Velocity.Y, Velocity.X);
+			AddForce(new Vector2(0, 980f));
+			
+			timeAlive++;
+			if(timeAlive >= lifeSpan)
+			{
+				isDead = true;
+				timeAlive = 0;
+			}
 		}
 	}
 }
