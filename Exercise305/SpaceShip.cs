@@ -42,7 +42,7 @@ namespace Movement
 		public override void Update(float deltaTime)
 		{
 			Move(deltaTime);
-			Limit(Velocity);
+			Velocity = Limit(Velocity);
 			WrapEdges();
 		}
 
