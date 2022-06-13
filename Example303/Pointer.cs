@@ -21,11 +21,9 @@ Methods:
 
 namespace Movement
 {
-	class Pointer : SpriteNode
+	class Pointer : MoverNode
 	{
 		// your private fields here (add Velocity, Acceleration, and MaxSpeed)
-		private Vector2 Velocity;
-		private Vector2 Acceleration;
 		private float maxDistance;
 		private float MaxSpeed = 200f;
 
@@ -41,7 +39,7 @@ namespace Movement
 		public override void Update(float deltaTime)
 		{
 			PointToMouse(deltaTime);
-			BounceEdges();
+			Velocity = Limit(Velocity);
 		}
 
 		// your own private methods
@@ -59,23 +57,9 @@ namespace Movement
 				Vector2.Normalize(direction);
 
 				Acceleration = direction;
-				
-				if(Velocity.X > MaxSpeed || Velocity.X < MaxSpeed)
-				{
-					Velocity.X += Acceleration.X * deltaTime;
-				}
-				else if(Velocity.X > -MaxSpeed && Velocity.X < -MaxSpeed)
-				{
-					Velocity.X -= Acceleration.X * deltaTime;
-				}
-				if(Velocity.Y < MaxSpeed || Velocity.Y > MaxSpeed)
-				{
-					Velocity.Y += Acceleration.Y * deltaTime;
-				}
-				else if(Velocity.Y > -MaxSpeed && Velocity.Y < -MaxSpeed)
-				{
-					Velocity.Y -= Acceleration.Y * deltaTime;
-				}
+
+				Velocity += Acceleration * deltaTime;
+
 				Position += Velocity * deltaTime;
 				Console.WriteLine(Position);
 				Acceleration *= 0;
@@ -83,14 +67,5 @@ namespace Movement
 
 			Rotation = (float)Math.Atan2(Velocity.Y, Velocity.X);
 		}
-
-		private void BounceEdges()
-		{
-			float scr_width = Settings.ScreenSize.X;
-			float scr_height = Settings.ScreenSize.Y;
-			float spr_width = TextureSize.X;
-			float spr_heigth = TextureSize.Y;
-		}
-
 	}
 }

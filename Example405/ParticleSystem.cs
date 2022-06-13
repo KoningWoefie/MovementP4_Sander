@@ -51,14 +51,6 @@ namespace Movement
 		// Update is called every frame
 		public override void Update(float deltaTime)
 		{
-			//if(pleaseWork < 100)
-			//{
-			//	pleaseWork++;
-			//	p = new Particle(0, 0, colors[rand.Next()%colors.Count]);
-			//	particles.Add(p);
-			//	p.Rotation = (float)Math.Atan2(p.Velocity.Y, p.Velocity.X);
-			//	AddChild(p);
-			//}
 			p2 = particles[0];
 			if(p2.isDead)
 			{
